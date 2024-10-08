@@ -1,5 +1,8 @@
 package ru.akbirov.feedback.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.parsing.Problem;
@@ -31,6 +34,9 @@ public class ProductReviewsRestController {
     //private final ReactiveMongoTemplate reactiveMongoTemplate;
 
     @GetMapping("by-product-id/{productId:\\d+}")
+    @Operation(
+            security = @SecurityRequirement(name = "keycloak")
+    )
     public Flux<ProductReview> findProductReviewsByProductId(@PathVariable("productId") int productId) {
         return this.productReviewsService.findProductReviewsByProduct(productId);
     }
